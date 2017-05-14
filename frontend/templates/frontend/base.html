@@ -1,12 +1,16 @@
+{% load staticfiles %}
+{% load bootstrap3 %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>3DCopy</title>
+    {% bootstrap_css %}
+    <link rel="stylesheet" href="{% static 'scss/style.css' %}">
+    {% bootstrap_javascript %}
+    {% block head %}{% endblock %}
 </head>
 <body>
-    {% include 'frontend/menu.html' %}
-    Yolo swag, bitch!
     <section class="content">
         {% block content %}{% endblock %}
     </section>
