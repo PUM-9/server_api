@@ -4,5 +4,5 @@ from jobs.models import Registration
 import json
 
 
-def add_register_job(request):
-    return render(request, 'frontend/base.html')
+def hello_world(request):
+    return HttpResponse('Hello world!')

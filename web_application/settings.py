@@ -130,3 +130,8 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 )
+
+FILE_UPLOAD_DIR = os.path.join(BASE_DIR, 'uploads')
+
+if not os.path.exists(FILE_UPLOAD_DIR):
+    os.makedirs(FILE_UPLOAD_DIR)
