@@ -44,7 +44,7 @@ class Registration(Job):
         registration = cls(name=name, created=created, log_level=log_lvl, max_correspondence=max_corr, max_iterations=max_it,
                            transformation_epsilon=trans_eps, leaf_size=leaf_size)
         registration.save()
-        return registration.id
+        return registration
 
 
 class Mesh(Job):
@@ -58,15 +58,18 @@ class File(models.Model):
     job_id = models.ForeignKey(Job, on_delete=models.CASCADE)
 
     @classmethod
-    def create(cls, file, job_id):
+    def create(cls, uploaded_file, job_id):
         name = randomword(15)
-        while File.objects.all().filter(name=name).len() > 0:
+        while File.objects.all().filter(name=name).__len__() > 0:
             name = randomword(15)
         name += ".pcd"
         created = timezone.now()
-        if file.name.split('.').len() > 1 and file.name.split('.')[-1] == "pcd":
+        if len(uploaded_file.name.split('.')) > 1 and uploaded_file.name.split('.')[-1] == "pcd":
             path = os.path.join(FILE_UPLOAD_DIR, name)
-            os.rename(file.path, path)
+            file = open(path, "wb")
+            for chunk in uploaded_file.chunks():
+                file.write(chunk)
+            file.close()
         else:
             return False
         db_file = cls(name=name, created=created, path=path, job_id=job_id)
