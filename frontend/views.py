@@ -30,5 +30,4 @@ def registration_job_form(request):
         else:
             return render(request, 'frontend/index.html')
     else:
-        print(form)
         return render(request, 'frontend/registration_form.html', {'form': form})
