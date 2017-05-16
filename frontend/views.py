@@ -7,7 +7,6 @@ from jobs.models import File, Registration
 
 def index(request):
     registration_jobs = Registration.objects.all()
-
     return render(request, 'frontend/index.html', {'registration_jobs': registration_jobs})
 
 
@@ -31,3 +30,8 @@ def registration_job_form(request):
             return render(request, 'frontend/index.html')
     else:
         return render(request, 'frontend/registration_form.html', {'form': form})
+
+def registration_job_show(request):
+    job_id = request.GET.get('id', '')
+    reg_object = Registration.objects.filter(id=job_id)
+    return render(request, 'frontend/registration_job.html', locals())
