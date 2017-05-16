@@ -6,7 +6,9 @@ from jobs.models import File, Registration
 
 
 def index(request):
-    return render(request, 'frontend/index.html')
+    registration_jobs = Registration.objects.all()
+
+    return render(request, 'frontend/index.html', {'registration_jobs': registration_jobs})
 
 
 def registration_job_form(request):
