@@ -4,7 +4,7 @@
 {% block content %}
     <div class="col-xs-4" align="left">
         <h3>New registration job</h3>
-        <form class="col-xs-12" action="/registration_form/" method="post" enctype="multipart/form-data" />
+        <form class="col-xs-12" action="{% url 'create_registration_job' %}" method="post" enctype="multipart/form-data" />
             {% csrf_token %}
             {% for error in form.non_field_errors %}
                 <div class="form-group has-errors text-danger small">
@@ -22,7 +22,7 @@
                     {{field}}
                 </div>
             {% endfor %}
-            <input type="submit" class="btn btn-primary" value="Submit" />
+            <input type="submit" class="btn btn-primary" value="Create" />
         </form>
     </div>
 {% endblock %}
