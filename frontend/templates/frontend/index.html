@@ -3,4 +3,24 @@
 
 {% block content %}
     <p>Index</p>
+
+    <table>
+    <caption>Registration Jobs</caption>
+        <tr>
+          <th>Namn</th>
+          <th>Skapad</th>
+          <th>Startad</th>
+          <th>Avslutad</th>
+          <th></th>
+        </tr>
+        {% for r in registration_jobs %}
+            <tr>
+              <td> {{ r.name }}</td>
+              <td> {{ r.created }}</td>
+              <td> {{ r.started }}</td>
+              <td> {{ r.finished }}</td>
+              <td> View</td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
