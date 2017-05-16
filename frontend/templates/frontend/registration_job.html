@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Registration Job {{ job_id }}</title>
+</head>
+<body>
+
     <p> TEST </p>
 
     <table>
@@ -33,8 +36,25 @@
         {% endfor %}
     </table>
 
-</head>
-<body>
+    <table>
+    <caption>Input Files</caption>
+        <tr>
+          <th>Namn</th>
+          <th>Skapad</th>
+          <th>Väg</th>
+          <th>Avslutad</th>
+          <th></th>
+        </tr>
+        {% for r in registration_jobs %}
+            <tr>
+              <td> {{ r.name }}</td>
+              <td> {{ r.created }}</td>
+              <td> {{ r.started }}</td>
+              <td> {{ r.finished }}</td>
+                <td> <a href="show_registration_job/?id={{ r.id }}">View</a></td>
+            </tr>
+        {% endfor %}
+    </table>
 
 </body>
 </html>
