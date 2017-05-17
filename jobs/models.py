@@ -68,7 +68,7 @@ class File(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
 
     @classmethod
-    def create(cls, uploaded_file, job_id):
+    def create(cls, uploaded_file, job):
         name = random_word(15)
         while len(File.objects.all().filter(name=name)) > 0:
             name = random_word(15)
@@ -82,6 +82,6 @@ class File(models.Model):
             file.close()
         else:
             return False
-        db_file = cls(name=name, created=created, path=path, job_id=job_id)
+        db_file = cls(name=name, created=created, path=path, job=job)
         db_file.save()
         return True
