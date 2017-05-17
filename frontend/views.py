@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse
 from jobs.forms import RegistrationJobForm, MeshJobForm
 from jobs.models import File, Registration, Mesh
 from django.views.decorators.csrf import csrf_protect
@@ -26,7 +26,7 @@ def registration_job_form(request):
                                       leaf_size)
             for f in files:
                 File.create(f, job)
-            return render(request, 'frontend/index.html')
+            return redirect('index')
         else:
             print("form invalid")
             # TODO: give error message
