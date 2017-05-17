@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from jobs.forms import RegistrationJobForm, MeshJobForm
 from jobs.models import File, Registration, Mesh
 from django.views.decorators.csrf import csrf_protect
-
+import os
 
 def index(request):
     registration_jobs = Registration.objects.all()
@@ -59,7 +59,14 @@ def registration_job_show(request):
 
 
 def registration_job_delete(request):
+    # TODO: Put some of this in a method called File.delete in models.py maybe?
     job_id = request.GET.get('id', '')
+    files = File.objects.filter(job=job_id).values()
+
+    for file in files:
+        if os.path.exists(file['path']):
+            os.remove(file['path'])
+
     Registration.objects.filter(id=job_id).delete()
     File.objects.filter(id=job_id).delete()
     return redirect(index)

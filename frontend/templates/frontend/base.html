@@ -11,6 +11,9 @@
     {% block head %}{% endblock %}
 </head>
 <body>
+    <section id="base-header">
+        <img src="{% static 'images/logo.png' %}" id="base-header-logo">
+    </section>
     <section class="col-xs-12 container-fluid">
         {% for message in error_messages %}
             <div class="alert alert-danger">
@@ -18,6 +21,9 @@
             </div>
         {% endfor %}
         {% block content %}{% endblock %}
+    </section>
+    <section id="base-footer">
+        <p>Footer</p>
     </section>
 </body>
 </html>
