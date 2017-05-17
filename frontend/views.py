@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from jobs.forms import RegistrationJobForm
-from jobs.models import File, Registration
+from jobs.forms import RegistrationJobForm, MeshJobForm
+from jobs.models import File, Registration, Mesh
 from django.views.decorators.csrf import csrf_protect
 
 
@@ -29,10 +29,29 @@ def registration_job_form(request):
             return render(request, 'frontend/index.html')
         else:
             print("form invalid")
+            # TODO: give error message
             return render(request, 'frontend/index.html')
     else:
         form = RegistrationJobForm()
         return render(request, 'frontend/registration_form.html', {'form': form})
+
+
+def mesh_job_form(request):
+    if request.method == 'POST':
+        form = MeshJobForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            log_level = form.cleaned_data['log_level']
+            # TODO: handle files
+            return render(request, 'frontend/index.html')
+        else:
+            # TODO: give error message
+            print("form invalid")
+            return render(request, 'frontend/index.html')
+    else:
+        form = MeshJobForm()
+        return render(request, 'frontend/mesh_form.html', {'form': form})
+
 
 def registration_job_show(request):
     job_id = request.GET.get('id', '')

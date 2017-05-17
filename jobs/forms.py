@@ -1,6 +1,16 @@
 from django import forms
 
 
+class MeshJobForm(forms.Form):
+    name = forms.CharField(max_length=200, label="Name")
+    log_level = forms.ChoiceField(choices=(("0", "Trace"),
+                                           ("1", "Debug"),
+                                           ("2", "Info"),
+                                           ("3", "Warning"),
+                                           ("4", "Error")), initial='2', label="Log level")
+    file = forms.FileField(label='Point Cloud')
+
+
 class RegistrationJobForm(forms.Form):
     name = forms.CharField(max_length=200, label="Name")
     log_level = forms.ChoiceField(choices=(("0", "Trace"),

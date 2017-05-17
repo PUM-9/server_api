@@ -8,7 +8,7 @@ import string
 import os
 
 
-def randomword(length):
+def random_word(length):
     return ''.join(random.choice(string.ascii_lowercase) for i in range(length))
 
 
@@ -41,27 +41,37 @@ class Registration(Job):
             log_lvl = int(log_lvl)
         except ValueError:
             log_lvl = LogLevel.INFO
-        registration = cls(name=name, created=created, log_level=log_lvl, max_correspondence=max_corr, max_iterations=max_it,
-                           transformation_epsilon=trans_eps, leaf_size=leaf_size)
+        registration = cls(name=name, created=created, log_level=log_lvl, max_correspondence=max_corr,
+                           max_iterations=max_it, transformation_epsilon=trans_eps, leaf_size=leaf_size)
         registration.save()
         return registration
 
 
 class Mesh(Job):
-    pass
+
+    @classmethod
+    def create(cls, name, log_lvl):
+        created = timezone.now()
+        try:
+            log_lvl = int(log_lvl)
+        except ValueError:
+            log_lvl = LogLevel.INFO
+        mesh = cls(name=name, created=created, log_level=log_lvl)
+        mesh.save()
+        return mesh
 
 
 class File(models.Model):
     name = models.CharField('name', max_length=20)
     created = models.DateTimeField('created')
     path = models.CharField('path', max_length=300)
-    job_id = models.ForeignKey(Job, on_delete=models.CASCADE)
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
 
     @classmethod
     def create(cls, uploaded_file, job_id):
-        name = randomword(15)
-        while File.objects.all().filter(name=name).__len__() > 0:
-            name = randomword(15)
+        name = random_word(15)
+        while len(File.objects.all().filter(name=name)) > 0:
+            name = random_word(15)
         name += ".pcd"
         created = timezone.now()
         if len(uploaded_file.name.split('.')) > 1 and uploaded_file.name.split('.')[-1] == "pcd":
