@@ -2,4 +2,14 @@ body {
   width: 1000px;
   margin: 100px auto; }
 
+#base-header-logo {
+  display: block;
+  width: 130px;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto; }
+
+#base-footer {
+  background-color: aquamarine; }
+
 /*# sourceMappingURL=style.css.map */
