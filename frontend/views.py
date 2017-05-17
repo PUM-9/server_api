@@ -1,8 +1,8 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect
 from jobs.forms import RegistrationJobForm, MeshJobForm
 from jobs.models import File, Registration, Mesh
 from django.views.decorators.csrf import csrf_protect
-from django.http import HttpResponse
+
 
 def index(request):
     registration_jobs = Registration.objects.all()
@@ -11,6 +11,7 @@ def index(request):
 
 @csrf_protect
 def registration_job_form(request):
+    messages = list()
     if request.method == 'POST':
         form = RegistrationJobForm(request.POST)
         form.fields['files'].required = False
@@ -28,29 +29,26 @@ def registration_job_form(request):
                 File.create(f, job)
             return redirect('index')
         else:
-            print("form invalid")
-            # TODO: give error message
-            return render(request, 'frontend/index.html')
-    else:
-        form = RegistrationJobForm()
-        return render(request, 'frontend/registration_form.html', {'form': form})
+            messages.append("Form could not be validated")
+    form = RegistrationJobForm()
+    return render(request, 'frontend/registration_form.html', {'form': form, 'error_messages': messages})
 
 
 def mesh_job_form(request):
+    messages = list()
     if request.method == 'POST':
         form = MeshJobForm(request.POST)
-        if form.is_valid():
+        files = request.FILES.getlist('file')
+        if form.is_valid() and files:
             name = form.cleaned_data['name']
             log_level = form.cleaned_data['log_level']
-            # TODO: handle files
+            job = Mesh.create(name, log_level)
+            File.create(files[0], job)
             return render(request, 'frontend/index.html')
         else:
-            # TODO: give error message
-            print("form invalid")
-            return render(request, 'frontend/index.html')
-    else:
-        form = MeshJobForm()
-        return render(request, 'frontend/mesh_form.html', {'form': form})
+            messages.append("Form could not be validated")
+    form = MeshJobForm()
+    return render(request, 'frontend/mesh_form.html', {'form': form, 'error_messages': messages})
 
 
 def registration_job_show(request):
@@ -58,6 +56,7 @@ def registration_job_show(request):
     reg_object = Registration.objects.filter(id=job_id)
     files = File.objects.filter(job=job_id)
     return render(request, 'frontend/registration_job.html', locals())
+
 
 def registration_job_delete(request):
     job_id = request.GET.get('id', '')

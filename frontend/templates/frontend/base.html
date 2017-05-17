@@ -12,6 +12,11 @@
 </head>
 <body>
     <section class="col-xs-12 container-fluid">
+        {% for message in error_messages %}
+            <div class="alert alert-danger">
+                {{ message }}
+            </div>
+        {% endfor %}
         {% block content %}{% endblock %}
     </section>
 </body>
