@@ -56,9 +56,11 @@ def mesh_job_form(request):
 def registration_job_show(request):
     job_id = request.GET.get('id', '')
     reg_object = Registration.objects.filter(id=job_id)
+    files = File.objects.filter(job=job_id)
     return render(request, 'frontend/registration_job.html', locals())
 
 def registration_job_delete(request):
     job_id = request.GET.get('id', '')
     Registration.objects.filter(id=job_id).delete()
+    File.objects.filter(id=job_id).delete()
     return redirect(index)
