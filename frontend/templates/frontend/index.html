@@ -4,14 +4,15 @@
 {% block content %}
     <a class="btn btn-primary" href="{% url 'create_registration_job' %}">Add registration job</a>
     <a class="btn btn-primary" href="{% url 'create_mesh_job' %}">Add mesh job</a>
-    <table>
+    <table class="table table-bordered table-hover table-condensed">
     <caption>Registration Jobs</caption>
         <tr>
           <th>Namn</th>
           <th>Skapad</th>
           <th>Startad</th>
           <th>Avslutad</th>
-          <th></th>
+          <th>View</th>
+          <th>Delete</th>
         </tr>
         {% for r in registration_jobs %}
             <tr>
@@ -19,7 +20,7 @@
               <td> {{ r.created }}</td>
               <td> {{ r.started }}</td>
               <td> {{ r.finished }}</td>
-              <td> <a href="show_registration_job/?id={{ r.id }}">View</a></td>
+              <td> <a href="show_registration_job/?id={{ r.id }}">View job</a></td>
               <td> <a href="delete_registration_job/?id={{ r.id }}">Delete job</a></td>
             </tr>
         {% endfor %}

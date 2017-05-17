@@ -10,7 +10,7 @@
 
     <a class="btn btn-primary" href="{%  url 'delete_registration_job' %}?id={{ job_id }}">Delete job</a>
 
-    <table>
+    <table class="table table-bordered table-hover table-condensed">
     <caption>Registration Job</caption>
         <tr>
           <th>Namn</th>
@@ -38,13 +38,12 @@
         {% endfor %}
     </table>
 
-    <table>
+    <table class="table table-bordered table-hover table-condensed">
     <caption>Input Files</caption>
         <tr>
           <th>Namn</th>
           <th>Skapad</th>
           <th>Väg</th>
-          <th></th>
         </tr>
         {% for f in files %}
             <tr>
@@ -54,7 +53,6 @@
             </tr>
         {% endfor %}
     </table>
-
 </body>
 </html>
 {% endblock %}
