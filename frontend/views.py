@@ -4,6 +4,7 @@ from jobs.models import File, Registration, Mesh
 from django.views.decorators.csrf import csrf_protect
 import os
 
+
 def index(request):
     registration_jobs = Registration.objects.all()
     return render(request, 'frontend/index.html', {'registration_jobs': registration_jobs})
