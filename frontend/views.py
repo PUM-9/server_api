@@ -62,10 +62,12 @@ def registration_job_show(request):
 def registration_job_delete(request):
     # TODO: Put some of this in a method called File.delete in models.py maybe?
     job_id = request.GET.get('id', '')
-    Registration.objects.filter(id=job_id).delete()
-    files = File.objects.filter(job=job_id)
+    files = File.objects.filter(job=job_id).values()
+
     for file in files:
-        if os.path.exists(file):
-            os.remove(file)
+        if os.path.exists(file['path']):
+            os.remove(file['path'])
+
+    Registration.objects.filter(id=job_id).delete()
     File.objects.filter(id=job_id).delete()
     return redirect(index)
