@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, reverse
 from jobs.forms import RegistrationJobForm, MeshJobForm
 from jobs.models import File, Registration, Mesh
 from django.views.decorators.csrf import csrf_protect
-
+from django.http import HttpResponse
 
 def index(request):
     registration_jobs = Registration.objects.all()
@@ -57,3 +57,8 @@ def registration_job_show(request):
     job_id = request.GET.get('id', '')
     reg_object = Registration.objects.filter(id=job_id)
     return render(request, 'frontend/registration_job.html', locals())
+
+def registration_job_delete(request):
+    job_id = request.GET.get('id', '')
+    Registration.objects.filter(id=job_id).delete()
+    return redirect(index)

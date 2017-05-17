@@ -19,7 +19,8 @@
               <td> {{ r.created }}</td>
               <td> {{ r.started }}</td>
               <td> {{ r.finished }}</td>
-                <td> <a href="show_registration_job/?id={{ r.id }}">View</a></td>
+              <td> <a href="show_registration_job/?id={{ r.id }}">View</a></td>
+              <td> <a href="delete_registration_job/?id={{ r.id }}">Delete job</a></td>
             </tr>
         {% endfor %}
     </table>
