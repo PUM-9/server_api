@@ -1,14 +1,16 @@
 {% extends "frontend/base.html" %}
 {% load bootstrap3 %}
 
-{% block content %}
 <head>
     <meta charset="UTF-8">
     <title>Registration Job {{ job_id }}</title>
 </head>
+
+{% block content %}
 <body>
 
-    <a class="btn btn-primary" href="{%  url 'delete_registration_job' %}?id={{ job_id }}">Delete job</a>
+    <a class="btn btn-primary" href="{% url 'index' %}">Back</a>
+    <a class="btn btn-primary" href="{% url 'delete_registration_job' %}?id={{ job_id }}">Delete job</a>
 
     <table class="table table-bordered table-hover table-condensed">
     <caption>Registration Job</caption>
