@@ -1,5 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "frontend/base.html" %}
+{% load bootstrap3 %}
+
+{% block content %}
 <head>
     <meta charset="UTF-8">
     <title>Registration Job {{ job_id }}</title>
@@ -42,19 +44,17 @@
           <th>Namn</th>
           <th>Skapad</th>
           <th>Väg</th>
-          <th>Avslutad</th>
           <th></th>
         </tr>
-        {% for r in registration_jobs %}
+        {% for f in files %}
             <tr>
-              <td> {{ r.name }}</td>
+              <td> {{ f.name }}</td>
               <td> {{ r.created }}</td>
-              <td> {{ r.started }}</td>
-              <td> {{ r.finished }}</td>
-                <td> <a href="show_registration_job/?id={{ r.id }}">View</a></td>
+              <td> {{ r.path }}</td>
             </tr>
         {% endfor %}
     </table>
 
 </body>
 </html>
+{% endblock %}
