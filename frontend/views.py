@@ -63,14 +63,6 @@ def mesh_job_form(request):
     form = MeshJobForm()
     return render(request, 'frontend/mesh_form.html', {'form': form, 'error_messages': messages})
 
-
-def registration_job_show(request):
-    job_id = request.GET.get('id', '')
-    reg_object = Registration.objects.filter(id=job_id)
-    files = File.objects.filter(job=job_id)
-    return render(request, 'frontend/registration_job.html', locals())
-
-
 def delete_job(request):
     # TODO: Put some of this in a method called File.delete in models.py maybe?
     job_id = request.GET.get('id', '')
@@ -84,11 +76,18 @@ def delete_job(request):
     File.objects.filter(id=job_id).delete()
     return redirect(index)
 
-def mesh_job_show(request):
+def show_job(request):
+    job_type = request.GET.get('type', '')
     job_id = request.GET.get('id', '')
-    mesh_object = Mesh.objects.filter(id=job_id)
+
+    if (job_type == 'Registration'):
+        object = Registration.objects.filter(id=job_id)
+    else:
+        object = Mesh.objects.filter(id=job_id)
+
     files = File.objects.filter(job=job_id)
-    return render(request, 'frontend/mesh_job.html', locals())
+
+    return render(request, 'frontend/show_job.html', locals())
 
 def start_registration(request):
     pass
