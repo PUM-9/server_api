@@ -24,8 +24,8 @@
               <td> {{ r.created }} </td>
               <td> {{ r.started }} </td>
               <td> {{ r.finished }} </td>
-              <td> <a class="btn btn-primary" href="show_registration_job/?id={{ r.id }}">View job</a></td>
-              <td> <a class="btn btn-primary" href="{% url 'delete_registration_job' %}?id={{ r.id }}"
+              <td> <a class="btn btn-primary" href="{% if r.class_name == "Registration" %}show_registration_job/?id={% else %}show_mesh_job/?id={% endif %}{{ r.id }}">View job</a></td>
+              <td> <a class="btn btn-primary" href="{% url 'delete_job' %}?id={{ r.id }}"
                     onclick="return confirm('Are you sure you want to delete this?')">Delete job
                    </a>
               </td>
