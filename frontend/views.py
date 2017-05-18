@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, reverse
 from jobs.forms import RegistrationJobForm, MeshJobForm
-from jobs.models import File, Registration, Mesh, start_job
+from jobs.models import File, Registration, Mesh
 from django.views.decorators.csrf import csrf_protect
 import os
 from operator import attrgetter
 from itertools import chain
+
 
 def index(request):
     registration_jobs = Registration.objects.all()
@@ -13,6 +14,7 @@ def index(request):
         chain(registration_jobs, mesh_jobs),
         key=attrgetter('created'))
     return render(request, 'frontend/index.html', {'result_jobs': result_jobs})
+
 
 @csrf_protect
 def registration_job_form(request):
