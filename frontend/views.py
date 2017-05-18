@@ -27,7 +27,7 @@ def registration_job_form(request):
             job = Registration.create(name, log_level, max_correspondence, max_iterations, transformation_epsilon,
                                       leaf_size)
             for f in files:
-                file = File.create(f, job)
+                file = File.create_pcd(f, job)
                 if not file:
                     messages.append("A file could not be uploaded.")
             return redirect('index')
@@ -48,7 +48,7 @@ def mesh_job_form(request):
             name = form.cleaned_data['name']
             log_level = form.cleaned_data['log_level']
             job = Mesh.create(name, log_level)
-            file = File.create(files[0], job)
+            file = File.create_pcd(files[0], job)
             if not file:
                 messages.append('The file could not be uploaded.')
             return redirect('index')

@@ -6,6 +6,7 @@ from web_application.settings import FILE_UPLOAD_DIR
 import random
 import string
 import os
+import subprocess
 
 
 def random_word(length):
@@ -46,6 +47,24 @@ class Registration(Job):
         registration.save()
         return registration
 
+    def execute(self):
+        self.started = timezone.now()
+        self.save()
+        command = list(['3DCopy'])
+        command.append('-r')
+        command.append('-d ' + str(self.max_correspondence))
+        command.append('-i ' + str(self.max_iterations))
+        timeout = 5 * 60 * 60  # Timeout after 5 hours.
+        try:
+            subprocess.run(command, timeout=timeout, stdout=subprocess.PIPE)
+        except subprocess.TimeoutExpired:
+            self.finished = timezone.now()
+            # Maybe add some error in the database so we can display it.
+        except Exception:
+            self.finished = timezone.now()
+            # Add some other error in the database
+        return
+
 
 class Mesh(Job):
 
@@ -68,7 +87,7 @@ class File(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
 
     @classmethod
-    def create(cls, uploaded_file, job):
+    def create_pcd(cls, uploaded_file, job):
         name = random_word(15)
         while len(File.objects.all().filter(name=name)) > 0:
             name = random_word(15)
