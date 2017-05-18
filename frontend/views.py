@@ -27,7 +27,9 @@ def registration_job_form(request):
             job = Registration.create(name, log_level, max_correspondence, max_iterations, transformation_epsilon,
                                       leaf_size)
             for f in files:
-                File.create(f, job)
+                file = File.create(f, job)
+                if not file:
+                    messages.append("A file could not be uploaded.")
             return redirect('index')
         else:
             messages.append("Form could not be validated")
@@ -35,17 +37,21 @@ def registration_job_form(request):
     return render(request, 'frontend/registration_form.html', {'form': form, 'error_messages': messages})
 
 
+@csrf_protect
 def mesh_job_form(request):
     messages = list()
     if request.method == 'POST':
         form = MeshJobForm(request.POST)
         files = request.FILES.getlist('file')
+        form.fields['file'].required = False
         if form.is_valid() and files:
             name = form.cleaned_data['name']
             log_level = form.cleaned_data['log_level']
             job = Mesh.create(name, log_level)
-            File.create(files[0], job)
-            return render(request, 'frontend/index.html')
+            file = File.create(files[0], job)
+            if not file:
+                messages.append('The file could not be uploaded.')
+            return redirect('index')
         else:
             messages.append("Form could not be validated")
     form = MeshJobForm()

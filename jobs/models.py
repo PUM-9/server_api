@@ -84,4 +84,4 @@ class File(models.Model):
             return False
         db_file = cls(name=name, created=created, path=path, job=job)
         db_file.save()
-        return True
+        return db_file
