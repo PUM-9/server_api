@@ -7,8 +7,9 @@
         <a class="btn btn-primary" href="{% url 'create_mesh_job' %}">Add mesh job</a>
     </section>
     <table class="table table-bordered table-hover table-condensed">
-    <caption>Registration Jobs</caption>
+    <caption>Jobs</caption>
         <tr>
+          <th>Type of job</th>
           <th>Name</th>
           <th>Created</th>
           <th>Started</th>
@@ -16,8 +17,9 @@
           <th>View</th>
           <th>Delete</th>
         </tr>
-        {% for r in registration_jobs %}
+        {% for r in result_jobs %}
             <tr>
+              <td> Unknown</td>
               <td> {{ r.name }} </td>
               <td> {{ r.created }} </td>
               <td> {{ r.started }} </td>
