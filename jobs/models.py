@@ -56,7 +56,7 @@ class Registration(Job):
         command.append('-i ' + str(self.max_iterations))
         timeout = 5 * 60 * 60  # Timeout after 5 hours.
         try:
-            subprocess.run(command, timeout=timeout, stdout=subprocess.PIPE)
+            subprocess.run(command, timeout=timeout, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         except subprocess.TimeoutExpired:
             self.finished = timezone.now()
             # Maybe add some error in the database so we can display it.

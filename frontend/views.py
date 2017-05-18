@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, reverse
 from jobs.forms import RegistrationJobForm, MeshJobForm
-from jobs.models import File, Registration, Mesh
+from jobs.models import File, Registration, Mesh, start_job
 from django.views.decorators.csrf import csrf_protect
 import os
 
@@ -77,3 +77,7 @@ def registration_job_delete(request):
     Registration.objects.filter(id=job_id).delete()
     File.objects.filter(id=job_id).delete()
     return redirect(index)
+
+
+def start_registration(request):
+    pass
