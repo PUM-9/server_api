@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Mesh Job {{ job_id }}</title>
+    <title>{{ job_type }} Job {{ job_id }}</title>
 </head>
 
 {% block content %}
@@ -11,25 +11,37 @@
 
     <a class="btn btn-primary" href="{% url 'index' %}">Back</a>
     <a class="btn btn-primary" href="{% url 'delete_job' %}?id={{ job_id }}"
-       onclick="return confirm('Are you sure you want to delete this?')">Delete job
+       onclick="return confirm('Are you sure you want to delete this job?')">Delete job
     </a>
 
     <table class="table table-bordered table-hover table-condensed">
-    <caption>Mesh Job</caption>
+    <caption>{{ job_type }} Job</caption>
         <tr>
           <th>Name</th>
           <th>Created</th>
           <th>Started</th>
           <th>Finished</th>
           <th>Log Level</th>
+          {% if job_type == 'Registration' %}
+              <th>Max Correspondence</th>
+              <th>Max Iterations</th>
+              <th>Transformation Epsilon</th>
+              <th>Leaf Size</th>
+          {% endif %}
         </tr>
-        {% for m in mesh_object %}
+        {% for obj in object %}
             <tr>
-              <td> {{ m.name }}</td>
-              <td> {{ m.created }}</td>
-              <td> {{ m.started }}</td>
-              <td> {{ m.finished }}</td>
-              <td> {{ m.log_level }}</td>
+              <td> {{ obj.name }}</td>
+              <td> {{ obj.created }}</td>
+              <td> {{ obj.started }}</td>
+              <td> {{ obj.finished }}</td>
+              <td> {{ obj.log_level }}</td>
+              {% if job_type == 'Registration' %}
+                  <td> {{ obj.max_correspondence }}</td>
+                  <td> {{ obj.max_iterations }}</td>
+                  <td> {{ obj.transformation_epsilon }}</td>
+                  <td> {{ obj.leaf_size }}</td>
+              {% endif %}
             </tr>
         {% endfor %}
     </table>
