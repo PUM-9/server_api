@@ -14,7 +14,7 @@
     <section id="base-header">
         <img src="{% static 'images/logo.png' %}" id="base-header-logo">
     </section>
-    <section class="col-xs-12 container-fluid">
+    <section id="base-content">
         {% for message in error_messages %}
             <div class="alert alert-danger">
                 {{ message }}
@@ -23,7 +23,7 @@
         {% block content %}{% endblock %}
     </section>
     <section id="base-footer">
-        <p>Footer</p>
+        <p>TODO: add appropriate footer text/links</p>
     </section>
 </body>
 </html>

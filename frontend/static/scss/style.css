@@ -10,6 +10,10 @@ body {
   margin-right: auto; }
 
 #base-footer {
+  text-align: center;
   background-color: aquamarine; }
+
+#index-button-section {
+  background-color: red; }
 
 /*# sourceMappingURL=style.css.map */
