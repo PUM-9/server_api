@@ -1,13 +1,19 @@
 from django.shortcuts import render, redirect, reverse
 from jobs.forms import RegistrationJobForm, MeshJobForm
-from jobs.models import File, Registration, Mesh
+from jobs.models import File, Registration, Mesh, Job
 from django.views.decorators.csrf import csrf_protect
 import os
+from operator import attrgetter
+from itertools import chain
 
 
 def index(request):
     registration_jobs = Registration.objects.all()
-    return render(request, 'frontend/index.html', {'registration_jobs': registration_jobs})
+    mesh_jobs = Mesh.objects.all()
+    result_jobs = sorted(
+        chain(registration_jobs, mesh_jobs),
+        key=attrgetter('created'))
+    return render(request, 'frontend/index.html', {'result_jobs': result_jobs})
 
 
 @csrf_protect
@@ -65,7 +71,7 @@ def registration_job_show(request):
     return render(request, 'frontend/registration_job.html', locals())
 
 
-def registration_job_delete(request):
+def delete_job(request):
     # TODO: Put some of this in a method called File.delete in models.py maybe?
     job_id = request.GET.get('id', '')
     files = File.objects.filter(job=job_id).values()
@@ -74,6 +80,15 @@ def registration_job_delete(request):
         if os.path.exists(file['path']):
             os.remove(file['path'])
 
-    Registration.objects.filter(id=job_id).delete()
+    Job.objects.filter(id=job_id).delete()
     File.objects.filter(id=job_id).delete()
     return redirect(index)
+
+def mesh_job_show(request):
+    job_id = request.GET.get('id', '')
+    mesh_object = Mesh.objects.filter(id=job_id)
+    files = File.objects.filter(job=job_id)
+    return render(request, 'frontend/mesh_job.html', locals())
+
+def start_registration(request):
+    pass

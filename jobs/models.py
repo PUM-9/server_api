@@ -56,7 +56,7 @@ class Registration(Job):
         command.append('-i ' + str(self.max_iterations))
         timeout = 5 * 60 * 60  # Timeout after 5 hours.
         try:
-            subprocess.run(command, timeout=timeout, stdout=subprocess.PIPE)
+            subprocess.run(command, timeout=timeout, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         except subprocess.TimeoutExpired:
             self.finished = timezone.now()
             # Maybe add some error in the database so we can display it.
@@ -65,6 +65,8 @@ class Registration(Job):
             # Add some other error in the database
         return
 
+    def class_name(self):
+        return self.__class__.__name__
 
 class Mesh(Job):
 
@@ -79,6 +81,8 @@ class Mesh(Job):
         mesh.save()
         return mesh
 
+    def class_name(self):
+        return self.__class__.__name__
 
 class File(models.Model):
     name = models.CharField('name', max_length=20)
