@@ -6,7 +6,7 @@ from web_application.settings import FILE_UPLOAD_DIR
 import random
 import string
 import os
-import subprocess
+import time
 
 
 def random_word(length):
@@ -54,19 +54,18 @@ class Registration(Job):
         command.append('-r')
         command.append('-d ' + str(self.max_correspondence))
         command.append('-i ' + str(self.max_iterations))
+        print(' '.join(command))
+        time.sleep(5)
+        print("job finished")
         timeout = 5 * 60 * 60  # Timeout after 5 hours.
-        try:
-            subprocess.run(command, timeout=timeout, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        except subprocess.TimeoutExpired:
-            self.finished = timezone.now()
-            # Maybe add some error in the database so we can display it.
-        except Exception:
-            self.finished = timezone.now()
-            # Add some other error in the database
+        # subprocess.run(command, timeout=timeout, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        self.finished = timezone.now()
+        # TODO: handle the output files
         return
 
     def class_name(self):
         return self.__class__.__name__
+
 
 class Mesh(Job):
 
@@ -83,6 +82,7 @@ class Mesh(Job):
 
     def class_name(self):
         return self.__class__.__name__
+
 
 class File(models.Model):
     name = models.CharField('name', max_length=20)

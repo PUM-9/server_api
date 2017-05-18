@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_protect
 import os
 from operator import attrgetter
 from itertools import chain
+import threading
 
 
 def index(request):
@@ -89,5 +90,10 @@ def show_job(request):
 
     return render(request, 'frontend/show_job.html', locals())
 
-def start_registration(request):
-    pass
+def start_registration(request, reg_id):
+    print("starting job")
+    reg_job = Registration.objects.get(pk=reg_id)
+    thread = threading.Thread(target=reg_job.execute)
+    thread.start()
+    print("job started")
+    return redirect('index')
