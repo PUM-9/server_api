@@ -65,6 +65,8 @@ class Registration(Job):
             # Add some other error in the database
         return
 
+    def class_name(self):
+        return self.__class__.__name__
 
 class Mesh(Job):
 
@@ -79,6 +81,8 @@ class Mesh(Job):
         mesh.save()
         return mesh
 
+    def class_name(self):
+        return self.__class__.__name__
 
 class File(models.Model):
     name = models.CharField('name', max_length=20)

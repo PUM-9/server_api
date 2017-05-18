@@ -19,7 +19,7 @@
         </tr>
         {% for r in result_jobs %}
             <tr>
-              <td> Unknown</td>
+              <td> {{ r.class_name }}</td>
               <td> {{ r.name }} </td>
               <td> {{ r.created }} </td>
               <td> {{ r.started }} </td>
