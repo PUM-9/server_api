@@ -2,12 +2,12 @@
 {% load bootstrap3 %}
 
 {% block content %}
-    <section id="index-button-section">
+    <section class="top-button-section">
         <a class="btn btn-primary" href="{% url 'create_registration_job' %}">Add registration job</a>
         <a class="btn btn-primary" href="{% url 'create_mesh_job' %}">Add mesh job</a>
     </section>
-    <table class="table table-bordered table-hover table-condensed">
-    <caption>Jobs</caption>
+    <table class="table table-bordered table-condensed">
+    <caption class="content-titles">Jobs</caption>
         <tr>
           <th>Type of job</th>
           <th>Name</th>
@@ -15,6 +15,7 @@
           <th>Started</th>
           <th>Finished</th>
           <th>View</th>
+          <th>Start</th>
           <th>Delete</th>
         </tr>
         {% for r in result_jobs %}
@@ -25,6 +26,7 @@
               <td> {{ r.started }} </td>
               <td> {{ r.finished }} </td>
               <td> <a class="btn btn-primary" href="show_job/?type={{ r.class_name }}&id={{ r.id }}">View Job</a></td>
+              <td> <a class="btn btn-primary" href="start_registration/?id={{ r.id }}">Start Job</a></td>
               <td> <a class="btn btn-primary" href="{% url 'delete_job' %}?id={{ r.id }}"
                     onclick="return confirm('Are you sure you want to delete this job?')">Delete job
                    </a>
