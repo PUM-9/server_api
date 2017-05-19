@@ -81,7 +81,7 @@ def show_job(request):
     job_type = request.GET.get('type', '')
     job_id = request.GET.get('id', '')
 
-    if (job_type == 'Registration'):
+    if job_type == 'Registration':
         object = Registration.objects.filter(id=job_id)
     else:
         object = Mesh.objects.filter(id=job_id)
