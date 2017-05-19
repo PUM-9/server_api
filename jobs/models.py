@@ -54,6 +54,10 @@ class Registration(Job):
         command.append('-r')
         command.append('-d ' + str(self.max_correspondence))
         command.append('-i ' + str(self.max_iterations))
+        files = File.objects.filter(job=self.id)
+        for file in files:
+            command.append(file.path)
+        command.append(random_word(10))
         print(' '.join(command))
         time.sleep(5)
         print("job finished")
