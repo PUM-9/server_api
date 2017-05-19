@@ -2,9 +2,9 @@
 {% load bootstrap3 %}
 
 {% block content %}
-    <div class="col-xs-4" align="left">
-        <h3>New Mesh job</h3>
-        <form class="col-xs-12" action="{% url 'create_mesh_job' %}" method="post" enctype="multipart/form-data" />
+    <div id="mesh-form-content">
+        <h3 id="mesh-form-title">New Mesh job</h3>
+        <form action="{% url 'create_mesh_job' %}" method="post" enctype="multipart/form-data" />
             {% csrf_token %}
             {% for error in form.non_field_errors %}
                 <div class="form-group has-errors text-danger small">
