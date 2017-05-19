@@ -6,7 +6,7 @@ from web_application.settings import FILE_UPLOAD_DIR
 import random
 import string
 import os
-import time
+import subprocess
 
 
 def random_word(length):
@@ -50,21 +50,32 @@ class Registration(Job):
     def execute(self):
         self.started = timezone.now()
         self.save()
-        command = list(['3DCopy'])
+        command = list(['/home/hampus/Documents/school/kandidat/3DCopy/cmake-build-debug/3DCopy'])
         command.append('-r')
-        command.append('-d ' + str(self.max_correspondence))
-        command.append('-i ' + str(self.max_iterations))
+        command.append('-d')
+        command.append(str(self.max_correspondence))
+        command.append('-i')
+        command.append(str(self.max_iterations))
         files = File.objects.filter(job=self.id)
         for file in files:
             command.append(file.path)
-        command.append(random_word(10))
+        output_name = random_word(10)
+        while len(File.objects.all().filter(name=output_name+".pcd")) > 0:
+            output_name = random_word(10)
+        output_path = os.path.join(FILE_UPLOAD_DIR, output_name)
+        command.append(output_path)
+        output_path += ".pcd"
         print(' '.join(command))
-        time.sleep(5)
-        print("job finished")
         timeout = 5 * 60 * 60  # Timeout after 5 hours.
-        # subprocess.run(command, timeout=timeout, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        try:
+            print(os.system(' '.join(command)))
+            #job_process = subprocess.run(command, timeout=timeout, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            #                             shell=True)
+        except:
+            print("FAIL")
+        print("registration done")
         self.finished = timezone.now()
-        # TODO: handle the output files
+        File.save_output(output_name+".pcd", output_path, self, "pcd")
         return
 
     def class_name(self):
@@ -93,13 +104,14 @@ class File(models.Model):
     created = models.DateTimeField('created')
     path = models.CharField('path', max_length=300)
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    file_type = models.CharField('type', max_length=30)
+    is_input = models.BooleanField('is_input')
 
     @classmethod
-    def create_pcd(cls, uploaded_file, job):
-        name = random_word(15)
+    def upload_pcd(cls, uploaded_file, job):
+        name = random_word(15) + ".pcd"
         while len(File.objects.all().filter(name=name)) > 0:
-            name = random_word(15)
-        name += ".pcd"
+            name = random_word(15) + ".pcd"
         created = timezone.now()
         if len(uploaded_file.name.split('.')) > 1 and uploaded_file.name.split('.')[-1] == "pcd":
             path = os.path.join(FILE_UPLOAD_DIR, name)
@@ -109,6 +121,13 @@ class File(models.Model):
             file.close()
         else:
             return False
-        db_file = cls(name=name, created=created, path=path, job=job)
+        db_file = cls(name=name, created=created, path=path, job=job, file_type='pcd', is_input=True)
+        db_file.save()
+        return db_file
+
+    @classmethod
+    def save_output(cls, name, path, job, file_type):
+        created = timezone.now()
+        db_file = cls(name=name, created=created, path=path, job=job, file_type=file_type, is_input=False)
         db_file.save()
         return db_file
