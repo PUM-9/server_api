@@ -6,6 +6,10 @@ body {
   margin-bottom: 0px;
   padding-bottom: 20px; }
 
+caption {
+  text-align: center;
+  color: #353131; }
+
 tr:first-child {
   background-color: #A9A9A9; }
 
