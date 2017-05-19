@@ -2,13 +2,10 @@ body {
   width: 1000px;
   margin: 100px auto; }
 
+/* - - - TABLES - - - */
 .table {
   margin-bottom: 0px;
   padding-bottom: 20px; }
-
-caption {
-  text-align: center;
-  color: #353131; }
 
 tr:first-child {
   background-color: #A9A9A9; }
@@ -16,6 +13,13 @@ tr:first-child {
 tr:nth-child(2n+3) {
   background-color: #E8E8E8; }
 
+/* - - - TITLES - - - */
+.content-titles {
+  text-align: center;
+  font-size: 20px;
+  color: #353131; }
+
+/* - - - BASE - - - */
 #base-header-logo {
   display: block;
   width: 130px;
@@ -31,14 +35,6 @@ tr:nth-child(2n+3) {
   border-top-left-radius: 15px;
   border-top-right-radius: 15px; }
 
-#table-caption {
-  text-align: center;
-  font-size: 20px;
-  color: #353131; }
-
-#index-button-section {
-  padding: 10px; }
-
 #base-footer {
   text-align: center;
   height: 20px;
@@ -49,6 +45,9 @@ tr:nth-child(2n+3) {
   border-bottom-right-radius: 15px; }
 
 /* - - - BUTTONS - - - */
+.top-button-section {
+  padding: 10px; }
+
 .btn-primary {
   color: #4d4d4d;
   font-size: 15px;

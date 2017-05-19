@@ -3,7 +3,7 @@
 
 {% block content %}
     <div id="mesh-form-content">
-        <h3 id="mesh-form-title">New Mesh job</h3>
+        <h3 class="content-titles">New Mesh job</h3>
         <form action="{% url 'create_mesh_job' %}" method="post" enctype="multipart/form-data" />
             {% csrf_token %}
             {% for error in form.non_field_errors %}
