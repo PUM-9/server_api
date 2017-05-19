@@ -10,7 +10,13 @@ body {
 tr:first-child {
   background-color: #A9A9A9; }
 
+tr:first-child:hover {
+  background-color: #A9A9A9; }
+
 tr:nth-child(2n+3) {
+  background-color: #E8E8E8; }
+
+tr:nth-child(2n+3):hover {
   background-color: #E8E8E8; }
 
 /* - - - TITLES - - - */
