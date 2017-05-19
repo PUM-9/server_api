@@ -2,6 +2,10 @@ body {
   width: 1000px;
   margin: 100px auto; }
 
+.table {
+  margin-bottom: 0px;
+  padding-bottom: 20px; }
+
 #base-header-logo {
   display: block;
   width: 130px;
