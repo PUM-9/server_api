@@ -100,3 +100,13 @@ def start_registration(request, reg_id):
     thread = threading.Thread(target=reg_job.execute)
     thread.start()
     return redirect('index')
+
+
+def start_mesh(request, mesh_id):
+    try:
+        mesh_job = Mesh.objects.get(pk=mesh_id)
+    except Registration.DoesNotExist:
+        return redirect('index')
+    thread = threading.Thread(target=mesh_job.execute)
+    thread.start()
+    return redirect('index')

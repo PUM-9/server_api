@@ -78,7 +78,6 @@ class Registration(Job):
         print("STANDARD ERROR:\n")
         print(job_process.stderr.decode())
         Registration.objects.filter(id=self.id).update(finished=timezone.now())
-        self.finished = timezone.now()
         File.save_output(output_name+".pcd", output_path, self, "pcd")
         return
 
@@ -98,6 +97,36 @@ class Mesh(Job):
         mesh = cls(name=name, created=created, log_level=log_lvl)
         mesh.save()
         return mesh
+
+    def execute(self):
+        self.started = timezone.now()
+        self.save()
+        command = list(['~/TDDD96/3DCopy/3DCopy'])
+        command.append('-m')
+        file = File.objects.filter(job=self.id)
+        command.append(file.path)
+        output_name = random_word(10)
+        while len(File.objects.all().filter(name=output_name+".pcd")) > 0:
+            output_name = random_word(10)
+        output_path = os.path.join(FILE_UPLOAD_DIR, output_name)
+        command.append(output_path)
+        output_path += ".stl"
+        print(' '.join(command))
+        timeout = 5 * 60 * 60  # Timeout after 5 hours.
+        try:
+            job_process = subprocess.run(' '.join(command), timeout=timeout, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                         shell=True)
+        except Exception as e:
+            print("FAIL")
+            print(e)
+        print("meshing done")
+        print("STANDARD OUTPUT:\n")
+        print(job_process.stdout.decode())
+        print("STANDARD ERROR:\n")
+        print(job_process.stderr.decode())
+        Mesh.objects.filter(id=self.id).update(finished=timezone.now())
+        File.save_output(output_name+".stl", output_path, self, "stl")
+        return
 
     def class_name(self):
         return self.__class__.__name__
