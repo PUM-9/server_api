@@ -11,7 +11,6 @@
         <tr>
           <th>Type of job</th>
           <th>Name</th>
-          <th>Created</th>
           <th>Started</th>
           <th>Finished</th>
           <th>View</th>
@@ -22,7 +21,6 @@
             <tr>
               <td> {{ r.class_name }}</td>
               <td> {{ r.name }} </td>
-              <td> {{ r.created }} </td>
               <td> {{ r.started }} </td>
               <td> {{ r.finished }} </td>
               <td> <a class="btn btn-primary" href="show_job/?type={{ r.class_name }}&id={{ r.id }}">View Job</a></td>
