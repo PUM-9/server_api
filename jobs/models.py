@@ -103,8 +103,9 @@ class Mesh(Job):
         self.save()
         command = list(['~/TDDD96/3DCopy/3DCopy'])
         command.append('-m')
-        file = File.objects.filter(job=self.id)
-        command.append(file.path)
+        files = File.objects.filter(job=self.id)
+        for file in files:
+            command.append(file.path)
         output_name = random_word(10)
         while len(File.objects.all().filter(name=output_name+".pcd")) > 0:
             output_name = random_word(10)
