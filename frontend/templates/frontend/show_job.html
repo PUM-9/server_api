@@ -52,7 +52,23 @@
           <th>Created</th>
           <th>Path</th>
         </tr>
-        {% for f in files %}
+        {% for f in input_files %}
+            <tr>
+              <td> {{ f.name }}</td>
+              <td> {{ f.created }}</td>
+              <td> {{ f.path }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <table class="table table-bordered table-condensed">
+    <caption class="content-titles">Output Files</caption>
+        <tr>
+          <th>Name</th>
+          <th>Created</th>
+          <th>Path</th>
+        </tr>
+        {% for f in output_file %}
             <tr>
               <td> {{ f.name }}</td>
               <td> {{ f.created }}</td>
