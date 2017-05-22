@@ -30,9 +30,7 @@ def registration_job_form(request):
             max_correspondence = form.cleaned_data['max_correspondence']
             max_iterations = form.cleaned_data['max_iterations']
             transformation_epsilon = form.cleaned_data['transformation_epsilon']
-            leaf_size = form.cleaned_data['leaf_size']
-            job = Registration.create(name, log_level, max_correspondence, max_iterations, transformation_epsilon,
-                                      leaf_size)
+            job = Registration.create(name, log_level, max_correspondence, max_iterations, transformation_epsilon)
             for f in files:
                 file = File.upload_pcd(f, job)
                 if not file:

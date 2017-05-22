@@ -33,17 +33,16 @@ class Registration(Job):
     max_correspondence = models.FloatField('max_correspondence')
     max_iterations = models.IntegerField('max_iterations')
     transformation_epsilon = models.FloatField('transformation_epsilon')
-    leaf_size = models.FloatField('leaf_size')
 
     @classmethod
-    def create(cls, name, log_lvl, max_corr, max_it, trans_eps, leaf_size):
+    def create(cls, name, log_lvl, max_corr, max_it, trans_eps):
         created = timezone.now()
         try:
             log_lvl = int(log_lvl)
         except ValueError:
             log_lvl = LogLevel.INFO
         registration = cls(name=name, created=created, log_level=log_lvl, max_correspondence=max_corr,
-                           max_iterations=max_it, transformation_epsilon=trans_eps, leaf_size=leaf_size)
+                           max_iterations=max_it, transformation_epsilon=trans_eps)
         registration.save()
         return registration
 
@@ -78,6 +77,7 @@ class Registration(Job):
         print(job_process.stdout.decode())
         print("STANDARD ERROR:\n")
         print(job_process.stderr.decode())
+        Registration.objects.filter(id=self.id).update(finished=timezone.now())
         self.finished = timezone.now()
         File.save_output(output_name+".pcd", output_path, self, "pcd")
         return

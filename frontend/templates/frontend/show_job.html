@@ -26,7 +26,6 @@
               <th>Max Correspondence</th>
               <th>Max Iterations</th>
               <th>Transformation Epsilon</th>
-              <th>Leaf Size</th>
           {% endif %}
         </tr>
         {% for obj in object %}
@@ -39,7 +38,6 @@
                   <td> {{ obj.max_correspondence }}</td>
                   <td> {{ obj.max_iterations }}</td>
                   <td> {{ obj.transformation_epsilon }}</td>
-                  <td> {{ obj.leaf_size }}</td>
               {% endif %}
             </tr>
         {% endfor %}
