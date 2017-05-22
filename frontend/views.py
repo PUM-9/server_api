@@ -88,7 +88,8 @@ def show_job(request):
     else:
         object = Mesh.objects.filter(id=job_id)
 
-    files = File.objects.filter(job=job_id)
+    input_files = File.objects.filter(job=job_id).filter(is_input=True)
+    output_file = File.objects.filter(job=job_id).filter(is_input=False)
 
     return render(request, 'frontend/show_job.html', locals())
 

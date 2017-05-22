@@ -50,7 +50,7 @@ class Registration(Job):
     def execute(self):
         self.started = timezone.now()
         self.save()
-        command = list(['/home/hampus/Documents/school/kandidat/3DCopy/cmake-build-debug/3DCopy'])
+        command = list(['~/TDDD96/3DCopy/3DCopy'])
         command.append('-r')
         command.append('-d')
         command.append(str(self.max_correspondence))
@@ -68,12 +68,16 @@ class Registration(Job):
         print(' '.join(command))
         timeout = 5 * 60 * 60  # Timeout after 5 hours.
         try:
-            print(os.system(' '.join(command)))
-            #job_process = subprocess.run(command, timeout=timeout, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-            #                             shell=True)
-        except:
+            job_process = subprocess.run(' '.join(command), timeout=timeout, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                         shell=True)
+        except Exception as e:
             print("FAIL")
+            print(e)
         print("registration done")
+        print("STANDARD OUTPUT:\n")
+        print(job_process.stdout.decode())
+        print("STANDARD ERROR:\n")
+        print(job_process.stderr.decode())
         self.finished = timezone.now()
         File.save_output(output_name+".pcd", output_path, self, "pcd")
         return
